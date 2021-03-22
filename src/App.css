@@ -1,0 +1,184 @@
+.App {
+  text-align: center;
+  position: relative;
+
+}
+
+@media only screen and (max-width: 680px) {
+  .App{
+  display: flex;
+  flex-direction: column;
+  /* overflow-x: auto; */
+  white-space: nowrap;
+  padding: 10px;}
+
+  .header {
+    padding: 2.5%;
+    text-align: center;
+    background: rgb(8, 102, 139);
+    width:550px !important;
+  }
+  .left-content {
+    position:relative;
+    left:10% !important;
+    width:500px !important;
+    height:400px !important;
+    
+  }
+  .right-content {
+    position:relative;
+    left:1% !important;
+    width:560px !important;
+    height:500px !important;
+  }
+  
+  .inner-left-content{
+    width:500px;
+
+  }
+  .left-content:after {
+    display: none !important;
+  }
+  .line-graph{
+    position: center;
+    margin: 10% 0 10% 2% !important;
+    width:95%;
+  }
+  .search-form{
+    display:flex;
+    flex-wrap: wrap;
+    margin-left:10%;
+    width:380px
+  }
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.left-content {
+  float:left;
+  width:50%;
+}
+.right-content {
+  float:right;
+  width:50%;
+}
+
+.inner-left-content{
+  float:left;
+  margin: 5% 5% 10% 0;
+  width:100%;
+}
+
+.header {
+  padding: 2.5%;
+  text-align: center;
+  background: rgb(8, 102, 139);
+  color: white;
+  font-size: 30px;
+}
+
+.line-graph{
+  position: center;
+  margin: 20% 0 10% 2%;
+  width:95%;
+  height: 100%;
+}
+
+.left-content:after {
+  content: "";
+  background-color: #000;
+  position: absolute;
+  width: 1px;
+  height: 800px;
+  top: 10px;
+  left: 50%;
+  display: block;
+} 
+
+.search-form{
+  display:flex;
+  flex-wrap: wrap;
+  margin-left:10%;
+}
+.label-input{
+  position:relative;
+  font-size: 25px;
+  font-weight: bold;
+  width: 65%;
+  padding: 5px 1px;
+  text-align: left;
+
+}
+
+.search-bar{
+  width: 65%;
+  padding: 5px 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  /* display:inline-flex; */
+  height:40px;
+}
+
+.search-button{
+  cursor: pointer;
+  width: 20%;
+  margin-left:2%;
+  /* margin: 8px 10px; */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  height:40px;
+  font-weight: bold;
+  font-family:monospace;
+  font-size:15px;
+}
+
+.search-button:hover{
+  background-color: rgb(187, 187, 131);
+}
+
+.form-section{
+  margin: 5% 10% 10% 10%;
+}
+
+.loader{
+  position: fixed;
+    left: 50%;
+    top:50%;
+    margin-top: -60px;
+    margin-left: -50px;
+}
