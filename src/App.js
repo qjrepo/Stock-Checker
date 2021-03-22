@@ -64,7 +64,7 @@ const App = () => {
       if (!response.ok){
         setalertClicked(true);
         setSpinnerLoading(false);
-        throw new Error(`HTTP error! status: ${response.status}.`);
+        throw new Error(`Http error! status: ${response.status}.`);
       }
       else{
         setalertClicked(false);
@@ -88,7 +88,7 @@ const App = () => {
       if (!response.ok){
         setalertClicked(true);
         setSpinnerLoading(false);
-        throw new Error(`HTTP error! status: ${response.status} when getting Symbol Detail.`);
+        throw new Error(`Http error! status: ${response.status} when getting Symbol Detail.`);
       }
       else{
         setalertClicked(false);
@@ -112,7 +112,7 @@ const App = () => {
       if (!response.ok){
         setalertClicked(true);
         setSpinnerLoading(false);
-        throw new Error(`HTTP error! status: ${response.status} when getting Daily Close Price for Last Year.`);
+        throw new Error(`Http error! status: ${response.status} when getting Daily Closing Price for Last Year.`);
       }
       else{
         setalertClicked(false);
@@ -149,7 +149,7 @@ const App = () => {
       if (!response.ok){
         setalertClicked(true);
         setSpinnerLoading(false);
-        throw new Error(`HTTP error! status: ${response.status} when getting Company Name.`);
+        throw new Error(`Http error! status: ${response.status} when getting Company Name.`);
       }
       else{
         setalertClicked(false);
@@ -170,7 +170,7 @@ const App = () => {
       if (!response.ok){
         setalertClicked(true);
         setSpinnerLoading(false);
-        throw new Error(`HTTP error! status: ${response.status} when getting Peers data.`);
+        throw new Error(`Http error! status: ${response.status} when getting Peers data.`);
       }
       else{
         console.log('alert321');
