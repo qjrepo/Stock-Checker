@@ -5,6 +5,10 @@ const SymbolDetail = ({pc, c, h, l, o, query, companyName, peers}) => {
     console.log(pc,c,h,l)
     let priceTd = ''
     let priceTb = ''
+    /*
+    when the opening price is greater than to equal to the previous
+    closing price, show red, otherwise show green
+    */ 
     if (o >= pc){
         priceTd = "td-d";
         priceTb = "t-pcohlr"
@@ -37,7 +41,6 @@ const SymbolDetail = ({pc, c, h, l, o, query, companyName, peers}) => {
                     </tbody>
                 </table>
             </div>
-
             <div className = "t-left-content">
                 <table id = "t-table-left">
                     <tbody>

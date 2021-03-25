@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import SymbolDetail from './SymbolDetail';
+import SymbolDetail from './components/SymbolDetail';
 import {Line} from 'react-chartjs-2';
 import './App.css';
 import Loader from "react-loader-spinner";
@@ -15,8 +15,8 @@ const App = () => {
     labels: [],
     datasets: [
         {
-            label: 'close price',
-            data: [],
+          label: 'close price',
+          data: [],
         }
     ],
     });
@@ -28,7 +28,7 @@ const App = () => {
   const [dateTo, setdateTo] = useState(0);
   const [spinnerLoading, setSpinnerLoading] = useState(false);
   const [clicked, setClicked] = useState(false);
-  const [alertclicked, setalertClicked] = useState(false);
+  const [alertClicked, setalertClicked] = useState(false);
 
   const appkey = "c19cnqv48v6psigtb4ag";
 
@@ -56,12 +56,16 @@ const App = () => {
     setIsOpened(false);
   },[search]);
 
-  const getAllSymbol = async () =>{
+  const getAllSymbol = async () => {
+    /*
+      get all symbol names from 
+      the finnhub api
+    */
     try{
       const response = await fetch(`https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${appkey}`, {
         timeout: 6000
       });
-      if (!response.ok){
+      if(!response.ok){
         setalertClicked(true);
         setSpinnerLoading(false);
         throw new Error(`Http error! status: ${response.status}.`);
@@ -71,16 +75,22 @@ const App = () => {
       }
       const data = await response.json();
       let arr = []
-      data.map(d=>
+      data.map(d =>
         arr.push(d.symbol)
       );
       setSymbols(arr)
-    }catch(err){
-        alert(err + " An error occured. Please try again later.");
+    }
+    catch(err)
+    {
+      alert(err + " An error occured. Please try again later.");
     }
   }
 
   const getSymbolDetail = async () => {
+    /*
+      get detail of the input symbol
+      from the finnhub api
+    */
     try{
       const response = await fetch(`https://finnhub.io/api/v1/quote?symbol=${query}&token=${appkey}`,{
         timeout: 6000
@@ -92,19 +102,24 @@ const App = () => {
       }
       else{
         setalertClicked(false);
-        console.log(alertclicked);
+        console.log(alertClicked);
       }
       
       const data = await response.json();
       if (data !== undefined){
         setsymbolDetail(data);
       }
-    }catch(err){
-        alert(err + " Please try again later.");
+    }
+    catch(err){
+      alert(err + " Please try again later.");
     }
   }
 
-  const closePriceOneYear = async () => {
+  const closePriceLastYear = async () => {
+    /*
+      get daily closing price for last year
+      from the finnhub api
+    */
     try{
       const response = await fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${query}&resolution=D&from=${dateFrom}&to=${dateTo}&token=${appkey}`,{
         timeout: 6000
@@ -116,7 +131,7 @@ const App = () => {
       }
       else{
         setalertClicked(false);
-        console.log(alertclicked);
+        console.log(alertClicked);
       }
       const data = await response.json();
       if (data.t !== undefined){
@@ -128,20 +143,24 @@ const App = () => {
           labels: dates,
           datasets: [
               {
-                  label: 'Daily Closing Prices for Year ' + lastYear,
-                  data: data.c,
+                label: 'Daily Closing Prices for Year ' + lastYear,
+                data: data.c,
               }
           ],
-      }
+        }
       );
       }
-    }catch(err){
+    }
+    catch(err){
       alert(err + " Please try again later.");
     }
-  
   }
 
   const getCompanyName = async () => {
+    /*
+      get the compay name which the input ticker 
+      relates to
+    */
     try{
       const response = await fetch(`https://finnhub.io/api/v1/stock/profile2?symbol=${query}&token=${appkey}`, {
         timeout: 6000
@@ -153,16 +172,21 @@ const App = () => {
       }
       else{
         setalertClicked(false);
-        console.log(alertclicked);
+        console.log(alertClicked);
       }
       const data = await response.json();
       setcompanyName(data.name);
-    }catch(err){
-        alert(err + " Please try again later.")
+    }
+    catch(err){
+      alert(err + " Please try again later.")
     }
   }
 
   const getPeers = async () => {
+    /*
+      get similar company ticker symbols
+      for the input ticker
+    */
     try{
       const response = await fetch(`https://finnhub.io/api/v1/stock/peers?symbol=${query}&token=${appkey}`,{
         timeout: 6000
@@ -173,7 +197,6 @@ const App = () => {
         throw new Error(`Http error! status: ${response.status} when getting Peers data.`);
       }
       else{
-        console.log('alert321');
         setalertClicked(false);
       }
       const data = await response.json();
@@ -183,12 +206,14 @@ const App = () => {
     catch(err){
       alert(err + " Please try again later.");
     }
-}
+  }
 
   function getAllData(){
-    if(alertclicked){return};
+    if(alertClicked){
+      return;
+    };
     getSymbolDetail();
-    closePriceOneYear();
+    closePriceLastYear();
     getCompanyName();
     getPeers();
   }
@@ -197,22 +222,15 @@ const App = () => {
     setSearch(e.target.value.toUpperCase());
   }
 
-
   const getSearch = e =>{
     e.preventDefault();
-    if(alertclicked){
+    if(alertClicked){
         setSpinnerLoading(true);
         setTimeout(() => {
           getAllSymbol();
           setIsOpened(false);
           setSpinnerLoading(false);
-          // setTimeout(() => {
-          //   console.log(alertclicked);
-          // }, 10000);
-          // if(!alertclicked){
-          //   updateQuery(search);
-          // }
-      }, 20000);
+        }, 20000);
     }else{
         updateQuery(search);
     }
@@ -238,77 +256,72 @@ const App = () => {
   }
 
   return (
-    
     <div className="App">
       <div className="header">
       </div>
       <div className="left-content">
-        <div className = "inner-left-content">
-          <div className = "form-section">
-            <form className = "search-form">
-              <label className = "label-input">Enter Ticker Symbol</label>
-              <input className = "search-bar" type = "text" value = {search} onChange = {updateSearch}></input>
-              <button className = "search-button" type="submit" onClick = {getSearch}>
-                Enter &rarr;
-              </button>
-            </form>
+        <div className = "form-section">
+          <form className = "search-form">
+            <label className = "label-input">Enter Ticker Symbol</label>
+            <input className = "search-bar" type = "text" value = {search} onChange = {updateSearch}></input>
+            <button className = "search-button" type="submit" onClick = {getSearch}>
+              Enter &rarr;
+            </button>
+          </form>
+        </div>
+        {isOpened &&(
+          <div className = "left-content-symbol">
+              <SymbolDetail
+                  key = {query}
+                  pc = {symbolDetail.pc}
+                  c = {symbolDetail.c}
+                  h = {symbolDetail.h}
+                  l = {symbolDetail.l}
+                  o = {symbolDetail.o}
+                  query = {query}
+                  companyName = {companyName}
+                  peers = {peers}
+              />
           </div>
-          {isOpened &&(
-              <div className = "left-content-symbol">
-                  <SymbolDetail
-                      key = {query}
-                      pc = {symbolDetail.pc}
-                      c = {symbolDetail.c}
-                      h = {symbolDetail.h}
-                      l = {symbolDetail.l}
-                      o = {symbolDetail.o}
-                      query = {query}
-                      companyName = {companyName}
-                      peers = {peers}
-                  />
-              </div>
-          )}
-        </div>
+      )}
+    </div>
+    <div className = "loader">
+      <Loader
+        key = {keyquery+query}
+        type = "BallTriangle"
+        color = "#00BFFF"
+        height = {100}
+        width = {100}
+        visible = {spinnerLoading}
+      />
+    </div>
+    <div className = "right-content">
+      {isOpened && (
+        <div className = "line-graph">
+          <Line
+              key = {keyquery}
+              data = {graphData}
+              width = {100}
+              height = {50}
+              options = {{
+                scales: {
+                  yAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Price'
+                    }
+                  }],
+                  xAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Date'
+                    }
+                  }],
+                }     
+              }}
+          />
+        </div>)}
       </div>
-      <div className = "loader">
-        <Loader
-          key = {keyquery+query}
-          type="BallTriangle"
-          color="#00BFFF"
-          height={100}
-          width={100}
-          visible={spinnerLoading}
-        />
-      </div>
-
-      <div className = "right-content">
-        {isOpened && (
-          <div className = "line-graph">
-            <Line
-                key = {keyquery}
-                data={graphData}
-                width={100}
-                height={50}
-                // options={{ maintainAspectRatio: false }}
-                options = {{
-                  scales: {
-                    yAxes: [{
-                      scaleLabel: {
-                        display: true,
-                        labelString: 'Price'
-                      }
-                    }],
-                    xAxes: [{
-                      scaleLabel: {
-                        display: true,
-                        labelString: 'Date'
-                      }
-                    }],
-                  }     
-                }}
-            />
-          </div>)}
-        </div>
     </div>
   );
 };
